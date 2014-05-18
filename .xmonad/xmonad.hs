@@ -55,7 +55,7 @@ main = do
 	xmonad $ defaultConfig  {
 	manageHook = manageDocks <+> myManageHook -- make sure to include myManageHook definition from above
                         <+> manageHook defaultConfig
-        , layoutHook = avoidStruts  $  layoutHook defaultConfig
+        , layoutHook = avoidStruts $ layoutHook defaultConfig
         , workspaces = myWorkspaces
         , logHook = dynamicLogWithPP xmobarPP
                         { ppOutput = hPutStrLn xmproc
@@ -67,6 +67,7 @@ main = do
                         }
 	,modMask = mod4Mask
 	,terminal = "termite"
+	,focusedBorderColor = "#00688B"
 	,borderWidth = 1
 	,keys = myKeys
 	}

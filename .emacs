@@ -36,6 +36,7 @@
 ;				  "-unknown-Inconsolata-normal-normal-normal-*-15-*-*-*-m-0-iso10646-1")))
 ; set font for graphical window (workaround for emacs --daemon); the value here is taken from (describe-font);
 ; Inconsolata font: http://levien.com/type/myfonts/inconsolata.html
+
 (setq-default show-trailing-whitespace t) ; show trailing whitespaces
 
 ;; In every buffer, the line which contains the cursor will be fully highlighted
@@ -53,4 +54,12 @@
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
+(package-initialize)
+
 (ido-mode t)
+(windmove-default-keybindings)
+(evil-mode t)
+(desktop-save-mode t)
+
+(require 'auto-complete-clang)
+(define-key c++-mode-map (kbd "C-S-<return>") 'ac-complete-clang)
