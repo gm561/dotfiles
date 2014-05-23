@@ -42,8 +42,6 @@
 ;; In every buffer, the line which contains the cursor will be fully highlighted
 (global-hl-line-mode 1)
 
-;; Set standard indent to 4
-(setq standard-indent 4)
 
 ;;; Global keybindings
 (global-set-key [C-tab] 'next-multiframe-window) ; switch windows
@@ -61,5 +59,57 @@
 (evil-mode t)
 (desktop-save-mode t)
 
-(require 'auto-complete-clang)
-(define-key c++-mode-map (kbd "C-S-<return>") 'ac-complete-clang)
+(require 'yasnippet)
+(yas-global-mode t)
+
+(add-hook 'after-init-hook 'global-company-mode)
+(require 'company)                                   ; load company mode
+(setq company-tooltip-limit 20)                      ; bigger popup window
+(setq company-idle-delay .3)                         ; decrease delay before autocompletion popup shows
+(setq company-echo-delay 0)                          ; remove annoying blinking
+(setq company-begin-commands '(self-insert-command))
+
+(require 'color)
+  (let ((bg (face-attribute 'default :background)))
+    (custom-set-faces
+     `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+     `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
+
+;; Set standard indent to 4
+(setq-default c-basic-offset 4)
+(setq standard-indent 4)
+
+;; c++ / c clean ups
+(defconst my-c-style
+  ;; Always indent c/c++ sources, never insert tabs
+  '(
+    ;; List of various C/C++/ObjC constructs to "clean up".
+    (c-cleanup-list             . (
+				   defun-close-semi
+				   list-close-comma
+				   scope-operator
+				   one-liner-defun
+;				   space-before-funcall
+				   brace-else-brace
+				   ))
+	))
+
+(c-add-style "my" my-c-style)
+;; Customizations for all modes in CC Mode.
+(defun my-c-mode-common-hook ()
+  ;; set my personal style for the current buffer
+  (c-set-style "my")
+  ;; other customizations
+  (setq tab-width 4
+        ;; this will make sure spaces are used instead of tabs
+        indent-tabs-mode nil)
+  ;; we like auto-newline, but not hungry-delete
+;  (c-toggle-auto-newline 1)
+)
+(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
+
+(global-auto-revert-mode t)
+

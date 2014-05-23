@@ -7,6 +7,9 @@ import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Run
 import XMonad.Actions.CycleWS
 import qualified Data.Map as M
+import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.SetWMName
+import XMonad.Hooks.ManageHelpers
 
 -- Define keys to add
 keysToAdd x = 
@@ -36,7 +39,9 @@ myKeys x = M.union (strippedKeys x) (M.fromList (keysToAdd x))
 
 myManageHook = composeAll
     [ 
-    	className =? "chromium" --> doFloat
+    	 className =? "chromium" --> doFloat
+	,className =? "skype" --> doFloat
+	,className =?  "Vlc" --> doFullFloat
     ]
 
 xmobarEscape = concatMap doubleLts
@@ -70,4 +75,6 @@ main = do
 	,focusedBorderColor = "#00688B"
 	,borderWidth = 1
 	,keys = myKeys
+	,handleEventHook = fullscreenEventHook
+	,startupHook = setWMName "LG3D"
 	}

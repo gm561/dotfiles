@@ -12,5 +12,8 @@ xset b off
 #set wallpaper
 feh --bg-fill Pictures/wallpaper-2988644.jpg
 
+#Make key bining working
+xbindkeys
+
 # start xmonad
 exec dbus-launch xmonad

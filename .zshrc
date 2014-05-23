@@ -54,8 +54,10 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-export JAVA_HOME="/usr/bin/java"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/core_perl"
+export PATH=$PATH:/opt/java/bin:/opt/java/jre/bin
+export JAVA_HOME=${JAVA_HOME:-/opt/java}
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
