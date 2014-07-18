@@ -77,3 +77,9 @@ export JAVA_HOME=${JAVA_HOME:-/opt/java}
 export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 export LANGUAGE="pl_PL"
+
+export ALTERNATE_EDITOR=emacsclient EDITOR=emacsclient VISUAL=emacsclient
+alias ec='emacsclient'
+
+#aliases
+alias winmnt='sudo ntfs-3g /dev/sda2 /mnt/windows'

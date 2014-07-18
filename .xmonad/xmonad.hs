@@ -10,10 +10,12 @@ import qualified Data.Map as M
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.ManageHelpers
+import XMonad.Actions.SpawnOn
+import qualified XMonad.StackSet as W
 
 -- Define keys to add
-keysToAdd x = 
-    [ 
+keysToAdd x =
+    [
         -- Close window
            ((modMask x, xK_c), kill)
         -- Shift to previous workspace
@@ -25,20 +27,20 @@ keysToAdd x =
         -- Shift window to next workspace
         ,  (((modMask x .|. shiftMask), xK_Right), shiftToNext)
     ]
- 
+
 -- Define keys to remove
-keysToRemove x = 
-    [ 
+keysToRemove x =
+    [
     ]
 
 -- Delete the keys combinations we want to remove.
 strippedKeys x = foldr M.delete (keys defaultConfig x) (keysToRemove x)
- 
+
 -- Compose all my new key combinations.
 myKeys x = M.union (strippedKeys x) (M.fromList (keysToAdd x))
 
 myManageHook = composeAll
-    [ 
+    [
     	 className =? "chromium" --> doFloat
 	,className =? "skype" --> doFloat
 	,className =?  "Vlc" --> doFullFloat
@@ -48,12 +50,17 @@ xmobarEscape = concatMap doubleLts
   where doubleLts '<' = "<<"
         doubleLts x   = [x]
 
-myWorkspaces :: [String]        
+myWorkspaces :: [String]
 myWorkspaces = clickable . (map xmobarEscape) $ ["1","2","3","4","5"]
-  where                                                                       
+  where
          clickable l = [ "<action=xdotool key alt+" ++ show (n) ++ ">" ++ ws ++ "</action>" |
-                             (i,ws) <- zip [1..5] l,                                        
+                             (i,ws) <- zip [1..4] l,
                             let n = i ]
+
+spawnToWorkspace :: String -> String -> X ()
+spawnToWorkspace workspace program = do
+                                      spawn program
+                                      windows $ W.greedyView workspace
 
 main = do
 	xmproc <- spawnPipe "xmobar /home/grzes/.xmobarrc"
@@ -71,10 +78,16 @@ main = do
                         , ppUrgent  = xmobarColor "red" "yellow"
                         }
 	,modMask = mod4Mask
-	,terminal = "termite"
+--	,terminal = "termite"
+	,terminal = "uxterm"
 	,focusedBorderColor = "#00688B"
 	,borderWidth = 1
 	,keys = myKeys
 	,handleEventHook = fullscreenEventHook
-	,startupHook = setWMName "LG3D"
+	,startupHook = do
+		 setWMName "LG3D"
+--		 spawnToWorkspace "1" "chromium"
+--	         spawnToWorkspace "2" "emacs"
+--		 spawnToWorkspace "5" "skype"
+--		 spawnToWorkspace "5" "clementine"
 	}
