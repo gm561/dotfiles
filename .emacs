@@ -8,20 +8,7 @@
 ;(setq user-modules-path)
 (add-to-list 'load-path "~/.emacs.d/plugins/")
 
-;;; Themes & UI
-;(setq user-themes-path "~/.emacs.d/themes/") ; here goes themes
-;(add-to-list 'custom-theme-load-path user-themes-path)
-;(load-theme 'zenburn t) ; set zenburn as theme
-
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(font-lock-constant-face ((t (:foreground "white"))))
-;;  '(font-lock-function-name-face ((t (:foreground "wheat"))))
-;;  '(font-lock-type-face ((t (:foreground "cornsilk"))))
-;;  '(font-lock-variable-name-face ((t (:foreground "wheat")))))
+(setq backup-directory-alist `(("." . "~/.saves")))
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -31,20 +18,17 @@
 (global-auto-revert-mode t)
 (server-start)
 
-
-(setq backup-directory-alist `(("." . "~/.saves")))
-
 ;; Theme settings
 (require 'theme-settings)
 
 ;; Basic settings
 (require 'basic-settings)
 
-;; Custom settings
-(require 'custom-settings)
-
 ;; Custom functions
 (require 'custom-functions)
+
+;; Custom settings
+(require 'custom-settings)
 
 ;; Python mode
 (require 'python-settings)
@@ -55,6 +39,17 @@
 ;; Haskell settings
 (require 'haskell-settings)
 
+;; Scheme mode
+(add-to-list 'auto-mode-alist '("\\.scm$" . scheme-mode))
 
+(autoload 'scheme-smart-complete "scheme-complete" nil t)
+(eval-after-load 'scheme
+  '(define-key scheme-mode-map "\e\t" 'scheme-smart-complete))
 
-
+(autoload 'scheme-get-current-symbol-info "scheme-complete" nil t)
+(add-hook 'scheme-mode-hook
+  (lambda ()
+    (make-local-variable 'eldoc-documentation-function)
+    (setq eldoc-documentation-function 'scheme-get-current-symbol-info)
+    (eldoc-mode)))
+(setq lisp-indent-function 'scheme-smart-indent-function)

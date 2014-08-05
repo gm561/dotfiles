@@ -1,5 +1,7 @@
 (load-theme 'solarized-dark t)
 
+;(load-theme 'zenburn t)
+
 (set-frame-font "Inconsolata-10" nil)
 
 ;; (require 'color)

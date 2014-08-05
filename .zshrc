@@ -57,6 +57,7 @@ source $ZSH/oh-my-zsh.sh
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/core_perl"
 export PATH=$PATH:/opt/java/bin:/opt/java/jre/bin
 export JAVA_HOME=${JAVA_HOME:-/opt/java}
+export GTAGSLIBPATH="/home/grzes/.gtags"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -83,3 +84,4 @@ alias ec='emacsclient'
 
 #aliases
 alias winmnt='sudo ntfs-3g /dev/sda2 /mnt/windows'
+
