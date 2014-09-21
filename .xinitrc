@@ -19,6 +19,7 @@ xbindkeys
 
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 
+xcompmgr -a &
 # start xmonad
 exec dbus-launch xmonad
 

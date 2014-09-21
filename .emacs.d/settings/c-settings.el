@@ -8,9 +8,13 @@
 				   one-liner-defun
 ;				   space-before-funcall
 				   brace-else-brace
-				   ))
-	))
+				   ))))
 (c-add-style "my" my-c-style)
+
+(defconst my-cc-style
+  '("cc-mode"
+    (c-offsets-alist . ((innamespace . [0])))))
+(c-add-style "my-cc-mode" my-cc-style)
 
 ;; Customizations for all modes in CC Mode.
 (defun my-c-mode-common-hook ()
@@ -47,12 +51,10 @@
 (setq ac-quick-help-delay 0.5)
 (setq ac-use-fuzzy 1.5)
 (ac-set-trigger-key "TAB")
+
 (defun my-ac-cc-mode-setup ()
   (setq ac-sources (append '(ac-source-clang) ac-sources)))
 (add-hook 'c-mode-common-hook 'my-ac-cc-mode-setup)
-
-;; (require 'member-function)
-;; (setq mf--source-file-extension "cpp")
 
 (require 'flymake)
 (add-hook 'find-file-hook 'flymake-find-file-hook)
@@ -79,11 +81,11 @@
 (add-hook 'c-mode-common-hook 'google-make-newline-indent)
 
 ; switch between header and source files.
-add-hook 'c-mode-common-hook
+(add-hook 'c-mode-common-hook
   (lambda()
     (local-set-key  (kbd "C-c o") 'ff-find-other-file)))
 
-; Create Header Guards with f12
+;Create Header Guards with f12
 (global-set-key [f12]
   		'(lambda ()
   		   (interactive)

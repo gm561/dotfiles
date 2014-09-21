@@ -56,4 +56,7 @@
 ;magit
 (require 'magit)
 
+;remove trailing whitespaces
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 (provide 'custom-settings)
